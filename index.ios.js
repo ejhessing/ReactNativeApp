@@ -12,15 +12,27 @@ import {
   View
 } from 'react-native';
 
+import * as firebase from 'firebase';
+
+const firebaseConfig = {
+    apiKey: "AIzaSyDn9NHeZoPISI03VQkEPlwIEtrm0co5Obc",
+    authDomain: "todolist-80768.firebaseapp.com",
+    databaseURL: "https://todolist-80768.firebaseio.com",
+    storageBucket: "todolist-80768.appspot.com",
+    messagingSenderId: "819233590442"
+  };
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+
 export default class toDo extends Component {
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          Erwin Hessing
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit index.ios.js
+          Is controlling you!
         </Text>
         <Text style={styles.instructions}>
           Press Cmd+R to reload,{'\n'}
