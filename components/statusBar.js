@@ -9,7 +9,7 @@ const { StyleSheet, Text, View } = ReactNative;
 class StatusBar extends Component {
   render() {
     return (
-      <View style={styles.statusbar}>
+      <View style={styles.statusBar}>
         <View style={styles.navbar}>
           <Text style={styles.navbarTitle}> {this.props.title} </Text>
         </View>
