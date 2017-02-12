@@ -1,20 +1,26 @@
 /**
  * Sample To Do App Made with React Native
- * https://github.com/facebook/react-native
+  * https://github.com/facebook/react-native
  * @flow
  */
 
 import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
-
+import ReactNative from 'react-native';
+import StatusBar from './components/statusBar';
+import ListItem from './components/listItem';
+import ActionButton from './components/actionButton';
 import * as firebase from 'firebase';
 import styles from './css/styles'
 
+const {
+  AppRegistry,
+  ListView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableHighlight,
+  AlertIOS,
+} = ReactNative;
 
 const firebaseConfig = {
     apiKey: "AIzaSyDn9NHeZoPISI03VQkEPlwIEtrm0co5Obc",
@@ -25,19 +31,46 @@ const firebaseConfig = {
   };
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
-export default class toDo extends Component {
+class toDo extends Component {
+constructor(props) {
+  super(props);
+  this.state = {
+    dataSource: new ListView.DataSource({
+      rowHasChanged: (row1, row2) => row1 !== row2,
+    })
+  };
+}
 
-  render() {
+componentDidMount() {
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows([{ title: 'Eat Dinner' }])
+    })
+  }
+
+
+_renderItem(item) {
+  return (
+    <ListItem item={item} onpress="{() => {}}" />
+  );
+}
+
+render() {
     return (
       <View style={styles.container}>
-        <Text>
-          To Do List
-        </Text>
+
+        <StatusBar title="To Do List"/>
+
+        <ListView 
+          dataSource={this.state.dataSource} 
+          renderRow={this._renderItem.bind(this)} 
+          style={styles.listview}/>
+
+        <ActionButton title="Add" onpress="{()"  />
+
       </View>
     );
   }
+
 }
-
-
 
 AppRegistry.registerComponent('toDo', () => toDo);
