@@ -85,9 +85,22 @@ class toDo extends Component {
 
 
 
+
   _renderItem(item) {
+
+    const onPress = () => {
+      AlertIOS.alert(
+        'Complete',
+        null,
+        [
+          {text: 'Complete', onPress: (text) => this.itemsRef.child(item._key).remove()},
+          {text: 'Cancel', onPress: (text) => console.log('Cancel Clicked')}
+        ]
+      );
+    };
+
     return (
-      <ListItem item={item} onpress="{() => {}}" />
+      <ListItem item={item} onPress={onPress} />
     );
   }
 
