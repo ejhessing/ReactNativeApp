@@ -1,5 +1,5 @@
 /**
- * Sample React Native App
+ * Sample To Do App Made with React Native
  * https://github.com/facebook/react-native
  * @flow
  */
@@ -13,6 +13,8 @@ import {
 } from 'react-native';
 
 import * as firebase from 'firebase';
+import styles from './css/styles'
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyDn9NHeZoPISI03VQkEPlwIEtrm0co5Obc",
@@ -28,38 +30,14 @@ export default class toDo extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Erwin Hessing
-        </Text>
-        <Text style={styles.instructions}>
-          Is controlling you!
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
+        <Text>
+          To Do List
         </Text>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+
 
 AppRegistry.registerComponent('toDo', () => toDo);
