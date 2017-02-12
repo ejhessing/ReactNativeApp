@@ -27,45 +27,82 @@ const firebaseConfig = {
     authDomain: "todolist-80768.firebaseapp.com",
     databaseURL: "https://todolist-80768.firebaseio.com",
     storageBucket: "todolist-80768.appspot.com",
-    messagingSenderId: "819233590442"
-  };
-const firebaseApp = firebase.initializeApp(firebaseConfig);
+};
+const firebaseDB = firebase.initializeApp(firebaseConfig);
 
 class toDo extends Component {
-constructor(props) {
-  super(props);
-  this.state = {
-    dataSource: new ListView.DataSource({
-      rowHasChanged: (row1, row2) => row1 !== row2,
-    })
-  };
-}
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      })
+    };
+    this.itemsRef = firebaseDB.database().ref();
+  }
 
-componentDidMount() {
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows([{ title: 'Eat Dinner' }])
-    })
+  componentDidMount() {
+    // this.setState({
+    //   dataSource: this.state.dataSource.cloneWithRows([{ title: 'Eat Dinner' }, { title: 'Eat Dinner' }])
+    // })
+    this.listenForItems(this.itemsRef)
+  }
+
+ _addItem() {
+    AlertIOS.prompt(
+      'Add New Item',
+      null,
+      [
+        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {
+          text: 'Add',
+          onPress: (text) => {
+            this.itemsRef.push({ title: text })
+          }
+        },
+      ],
+      'plain-text'
+    );
   }
 
 
-_renderItem(item) {
-  return (
-    <ListItem item={item} onpress="{() => {}}" />
-  );
-}
+  listenForItems(itemsRef) {
+    itemsRef.on('value', (snap) => {
+      let items = [];
+      snap.forEach((child) => {
+        items.push({
+          title: child.val().title,
+          _key: child.key
+        });
+      });
+    
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(items)
+      });
+  
+    });
+  }
 
-render() {
+
+
+  _renderItem(item) {
+    return (
+      <ListItem item={item} onpress="{() => {}}" />
+    );
+  }
+
+  render() {
     return (
       <View style={styles.container}>
 
-        <StatusBar title="To Do List"/>
+        <StatusBar title="To Do List" />
 
-        <ListView 
-          dataSource={this.state.dataSource} 
-          renderRow={this._renderItem.bind(this)} 
-          style={styles.listview}/>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this._renderItem.bind(this)}
+          style={styles.listview} />
 
-        <ActionButton title="Add" onpress="{()"  />
+        <ActionButton onPress={this._addItem.bind(this)} title="Add" />
 
       </View>
     );
